@@ -1,36 +1,35 @@
-import { useState, useEffect } from 'react'
-import { getGreeting } from '../apiClient'
+import { useState } from 'react'
+import { getWeather } from '../apiClient'
+import { Current, Location } from '../../Models/weather'
 
-const App = () => {
-  const [greeting, setGreeting] = useState('')
-  const [count, setCount] = useState(0)
-  const [isError, setIsError] = useState(false)
+export default function App() {
+  const [query, setQuery] = useState('')
+  const [weather, setWeather] = useState<Current | null>(null)
+  const [location, setLocation] = useState<Location | null>(null)
 
-  useEffect(() => {
-    getGreeting()
-      .then((greeting) => {
-        console.log(greeting)
-        setGreeting(greeting)
-        setIsError(false)
-      })
-      .catch((err) => {
-        console.log(err)
-        setIsError(true)
-      })
-  }, [count])
+  const handleSearch = async () => {
+    const weatherData = await getWeather(query)
+    setWeather(weatherData.current)
+    setLocation(weatherData.location)
+  }
 
   return (
-    <>
-      {count}
-      <h1>{greeting}</h1>
-      {isError && (
-        <p className="text-3xl font-bold text-red-500 underline text-center">
-          There was an error retrieving the greeting.
-        </p>
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Enter a location"
+      />
+      <button onClick={handleSearch}>Search</button>
+      {weather && location && (
+        <>
+          <h2>Current Weather</h2>
+          <p>{location.name}</p>
+          <p>{Math.round(weather.temp_c)}°C</p>
+          <p>{weather.condition.text}</p>
+        </>
       )}
-      <button onClick={() => setCount(count + 1)}>Click</button>
-    </>
+    </div>
   )
 }
-
-export default App
