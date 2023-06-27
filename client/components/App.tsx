@@ -24,7 +24,7 @@ const App = () => {
       {count}
       <h1>{greeting}</h1>
       {isError && (
-        <p style={{ color: 'red' }}>
+        <p className="text-3xl font-bold text-red-500 underline text-center">
           There was an error retrieving the greeting.
         </p>
       )}
