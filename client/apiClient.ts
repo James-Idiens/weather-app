@@ -1,6 +1,6 @@
 import request from 'superagent'
 import { Current, Location } from '../Models/weather'
-import { BingImageResponse, BingImageWallpaper } from '../Models/background'
+import { BingImageWallpaper } from '../Models/background'
 
 export async function getWeather(query: string): Promise<{
   current: Current
