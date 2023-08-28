@@ -68,7 +68,7 @@ export default function App() {
               Search
             </button>
           </div>
-          {error && <p>{error}</p>}
+          {error && <p data-testid="error-message">{error}</p>}
           {weather && location && !error && (
             <div className="mt-4 p-4">
               <div className="flex flex-col items-center">

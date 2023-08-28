@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect } from 'vitest'
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import nock from 'nock'
 import App from '../App'
@@ -56,6 +56,38 @@ describe('<App>', () => {
     expect(weatherIcon).toBeInTheDocument()
 
     expect(weatherScope.isDone()).toBeTruthy()
+    expect(bingImageScope.isDone()).toBeTruthy()
+  })
+
+  it('should display error message if weather search fails', async () => {
+    const weatherScope = nock('http://localhost')
+      .get('/api/v1/weather/Invalid')
+      .reply(404)
+
+    const bingImageScope = nock('http://localhost')
+      .get('/api/v1/bing-wallpaper')
+      .reply(200, {
+        imageUrl: 'http://example.com/image.jpg',
+        copyright: 'Copyright Text',
+      })
+
+    render(<App />)
+
+    // Search for weather
+    const searchInput = screen.getByLabelText('weather-search')
+    const searchButton = screen.getByText(/Search/i)
+
+    const user = userEvent.setup()
+
+    await user.type(searchInput, 'City')
+    await user.click(searchButton)
+
+    // Wait for error message to be displayed
+    const errorMessage = await screen.getByTestId('error-message')
+
+    expect(errorMessage).toBeInTheDocument()
+
+    expect(weatherScope.isDone()).toBeFalsy()
     expect(bingImageScope.isDone()).toBeTruthy()
   })
 })
