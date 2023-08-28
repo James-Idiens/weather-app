@@ -7,6 +7,13 @@ A further feature is utilizing the bing wallpaper of the day to display a backgr
 
 The purpose of this project was to learn how to work with an external API. I also wanted to learn how to use a CSS framework, and I chose Tailwind CSS.
 
+## React Testing
+
+A further feature of this website was to demonstrate my ability to write tests for React components. I used the React Testing Library to provide a suite of tests for the components.
+
+Run the tests with `npm run test`
+To see test coverage run `npm run test -- --coverage`
+
 ## Technologies used
 
 - Typescript
