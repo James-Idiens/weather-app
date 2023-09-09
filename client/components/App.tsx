@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { getWeather } from '../apiClient'
 import { Current, Location } from '../../Models/weather'
 import Wallpaper from './Wallpaper'
+import MapDisplay from './Map'
 
 export default function App() {
   const [query, setQuery] = useState('')
@@ -47,6 +48,7 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-gray-100">
       <Wallpaper />
+
       <div className="absolute inset-0 flex flex-col items-center justify-center pt-16">
         <div
           className={`max-w-md w-full ${getWeatherDivClass()} rounded-xl shadow-lg p-8`}
@@ -80,6 +82,11 @@ export default function App() {
                 <p>{weather.condition.text}</p>
                 <img src={weather.condition.icon} alt="Weather Icon" />
               </div>
+            </div>
+          )}
+          {weather && location && !error && (
+            <div id="viewDiv">
+              <MapDisplay location={location} />
             </div>
           )}
         </div>
