@@ -3,6 +3,8 @@ import esriConfig from '@arcgis/core/config'
 import { MapType, ViewType } from '../../Models/esri-types'
 import Point from '@arcgis/core/geometry/Point'
 
+const esriApiKey = process.env.REACT_APP_ARCGIS_API_KEY
+
 export default function MapDisplay({ location }: any) {
   const [map, setMap] = useState<MapType | null>(null)
   const [view, setView] = useState<ViewType | null>(null)
@@ -11,8 +13,7 @@ export default function MapDisplay({ location }: any) {
     const initializeMap = async () => {
       if (!map && !view && location) {
         try {
-          esriConfig.apiKey =
-            'AAPKa92707059f9a4f0d9f1f480ebff9e2efaxFrcAOwDhfSgJSiMwuj8JYYdJWd0Szw-JlPZQXPX9DVLoXl7LgYWkPksrfmJ8Be'
+          esriConfig.apiKey = esriApiKey as string
           const mapModule = await import('@arcgis/core/Map')
 
           const Map = mapModule.default

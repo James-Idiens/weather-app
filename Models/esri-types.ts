@@ -2,8 +2,6 @@ import Basemap from '@arcgis/core/Basemap'
 import Point from '@arcgis/core/geometry/Point'
 
 export interface MapType {
-  // Define properties and methods related to your Map object
-  // For example:
   basemap: Basemap
 }
 
